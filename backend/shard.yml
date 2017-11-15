@@ -1,0 +1,17 @@
+name: online-boards
+version: 0.1.0
+
+authors:
+  - Clément Laisné <claisne@helleboretech.com>
+
+targets:
+  online-boards:
+    main: src/online_boards.cr
+
+crystal: 0.23.1
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+
+license: MIT
