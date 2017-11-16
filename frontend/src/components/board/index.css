@@ -1,0 +1,32 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d18b47;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  background: #ffce9e;
+}
+
+.board-line {
+  flex: 1 1 10px;
+  display: flex;
+}
+
+.square {
+  flex: 1 1 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.square>img {
+  max-width: 100%;
+}
+
+.square-black {
+  background: #d18b47;;
+}
+
+.square-white {
+  background: #ffce9e;
+}

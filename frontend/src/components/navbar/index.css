@@ -1,0 +1,95 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 40px;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  align-items: center;
+}
+
+.navbar-title {
+  flex: 0 0 auto;
+  padding-left: 5px;
+  padding-right: 10px;
+  margin-right: 10px;
+  font-weight: 300;
+  text-transform: uppercase;
+
+  display: flex;
+  align-items: center;
+  color: #212529;
+  height: 100%;
+  transition: all 500ms;
+}
+
+.navbar-title-version {
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+.navbar-title:hover {
+  color: #212529;
+}
+
+.navbar-title>img {
+  max-width: 25px;
+  margin-right: 5px;
+}
+
+.navbar-links { 
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-link {
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #212521;
+}
+
+.navbar-links>.navbar-link {
+  border-right: 1px solid #ddd;
+  margin-right: 10px;
+  padding-right: 10px;
+
+  height: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-link:hover {
+  color: #212521;
+}
+
+.navbar-link:last-child {
+  border-right: none;
+}
+
+.navbar-auth { 
+  flex: 0 0 auto;
+  padding-right: 10px;
+}
+
+.navbar-auth>.navbar-link {
+  font-weight: 700;
+}
+
+.navbar-auth>small {
+  margin: 0 5px;
+}
+
+@media screen and (max-width: 500px) {
+  .navbar-links {
+    display: none;
+  }
+
+  .navbar-auth {
+    display: none;
+  }
+}
