@@ -13,5 +13,3 @@ module Checkers
     end
   end
 end
-
-

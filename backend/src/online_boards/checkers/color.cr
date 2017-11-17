@@ -4,7 +4,7 @@ module Checkers
     Black
 
     def opponent
-      if self.white?
+      if white?
         Black
       else
         White

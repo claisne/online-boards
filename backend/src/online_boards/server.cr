@@ -29,4 +29,3 @@ error 500 do |env|
 end
 
 Kemal.run
-

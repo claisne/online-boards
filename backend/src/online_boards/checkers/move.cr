@@ -9,13 +9,13 @@ module Checkers
     end
 
     def self.new_explore(start)
-      move = self.new()
+      move = self.new
       move.squares << start
       move
     end
 
     def self.new_step(start, end_step)
-      move = self.new()
+      move = self.new
       move.squares << start << end_step
       move
     end
@@ -34,8 +34,7 @@ module Checkers
     end
 
     def clone
-      Move.new(@squares.dup(), @captures.dup())
+      Move.new(@squares.dup, @captures.dup)
     end
   end
 end
-

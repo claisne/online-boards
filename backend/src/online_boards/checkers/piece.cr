@@ -3,7 +3,6 @@ require "./type"
 
 module Checkers
   class Piece
-
     property color : Color
     property type : Type
 
@@ -28,7 +27,7 @@ module Checkers
       self.new(Color::Black, Type::King)
     end
 
-    def rank_step_dir()
+    def rank_step_dir
       if @color.white?
         -1
       else
@@ -37,11 +36,11 @@ module Checkers
     end
 
     def left_step(square)
-      square.add(self.rank_step_dir(), -1)
+      square.add(self.rank_step_dir, -1)
     end
 
     def right_step(square)
-      square.add(self.rank_step_dir(), 1)
+      square.add(self.rank_step_dir, 1)
     end
 
     def white?
@@ -88,4 +87,3 @@ module Checkers
     end
   end
 end
-
