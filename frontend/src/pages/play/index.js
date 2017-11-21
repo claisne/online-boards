@@ -37,10 +37,10 @@ const SizeOptions = ({ size, onChangeSize }) => (
   </div>
 );
 
-const TypeButton = ({ type, disabled, children, onClick }) => (
+const ModeButton = ({ mode, disabled, children, onClick }) => (
   <button
     className={classNames('white', { disabled })}
-    onClick={() => onClick(type)}
+    onClick={() => onClick(mode)}
   >
     {children}
   </button>
@@ -52,11 +52,11 @@ class Play extends React.Component {
 
     this.state = {
       size: 10,
-      type: CLASSIC,
+      mode: CLASSIC,
     };
 
     this.onChangeSize = this.onChangeSize.bind(this);
-    this.onChangeType = this.onChangeType.bind(this);
+    this.onChangeMode = this.onChangeMode.bind(this);
     this.onFindClick = this.onFindClick.bind(this);
   }
 
@@ -64,8 +64,8 @@ class Play extends React.Component {
     this.setState({ size });
   }
 
-  onChangeType(type) {
-    this.setState({ type });
+  onChangeMode(mode) {
+    this.setState({ mode });
   }
 
   onFindClick() {
@@ -73,7 +73,7 @@ class Play extends React.Component {
   }
 
   render() {
-    const { size, type } = this.state;
+    const { size, mode } = this.state;
 
     return (
       <DefaultLayout>
@@ -85,31 +85,31 @@ class Play extends React.Component {
                 size={size}
                 onChangeSize={this.onChangeSize}
               />
-              <div className="play-options-type">
-                <div className="play-options-type-line">
-                  <TypeButton
-                    type={BULLET}
-                    disabled={type !== BULLET}
-                    onClick={this.onChangeType}
+              <div className="play-options-mode">
+                <div className="play-options-mode-line">
+                  <ModeButton
+                    mode={BULLET}
+                    disabled={mode !== BULLET}
+                    onClick={this.onChangeMode}
                   >
                     Bullet (1M)
-                  </TypeButton>
-                  <TypeButton
-                    type={BLITZ}
-                    disabled={type !== BLITZ}
-                    onClick={this.onChangeType}
+                  </ModeButton>
+                  <ModeButton
+                    mode={BLITZ}
+                    disabled={mode !== BLITZ}
+                    onClick={this.onChangeMode}
                   >
                     Blitz (5M)
-                  </TypeButton>
+                  </ModeButton>
                 </div>
-                <div className="play-options-type-line">
-                  <TypeButton
-                    type={CLASSIC}
-                    disabled={type !== CLASSIC}
-                    onClick={this.onChangeType}
+                <div className="play-options-mode-line">
+                  <ModeButton
+                    mode={CLASSIC}
+                    disabled={mode !== CLASSIC}
+                    onClick={this.onChangeMode}
                   >
                     Classic (10M)
-                  </TypeButton>
+                  </ModeButton>
                 </div>
               </div>
               <button

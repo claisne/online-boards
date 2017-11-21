@@ -8,7 +8,7 @@ alias Square = Checkers::Square
 
 describe Board do
   describe "#moves" do
-    it "generates the correct moves (turkish coup)" do
+    it "generates correct moves (turkish coup)" do
       board = Board.new(10)
       board.set_piece(Piece.new_black_king, Square.new(6, 9))
       board.set_piece(Piece.new_white_man, Square.new(5, 8))
@@ -27,5 +27,20 @@ describe Board do
         Square.new(7, 4),
       }).should be_true
     end
+  end
+
+  it "generates correct moves (man simple capture)" do
+    board = Board.new(10)
+    board.set_piece(Piece.new_black_man, Square.new(6, 9))
+    board.set_piece(Piece.new_white_man, Square.new(5, 8))
+    moves = board.moves(Color::Black)
+    moves.size.should eq 1
+    move = moves[0]
+    move.squares.size.should eq 2
+    (move.start_square == Square.new(6, 9)).should be_true
+    (move.end_square == Square.new(4, 7)).should be_true
+    (move.captures == Set{
+      Square.new(5, 8),
+    }).should be_true
   end
 end

@@ -2,7 +2,7 @@ import ReconnectingWebsocket from 'reconnecting-websocket';
 
 const listeners = {};
 
-const ws = new ReconnectingWebsocket('ws://localhost:3002');
+const ws = new ReconnectingWebsocket('ws://localhost:3001');
 
 ws.onmessage = (evt) => {
   const msg = JSON.parse(evt.data);

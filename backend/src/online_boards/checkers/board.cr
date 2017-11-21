@@ -43,7 +43,7 @@ module Checkers
     end
 
     def legal_square?(square)
-      square.rank >= 0 && square.rank < @size && square.file >= 0 && square.file < @size
+      (0 <= square.rank < @size) && (0 <= square.file < @size)
     end
 
     def empty_square?(square)
@@ -85,62 +85,77 @@ module Checkers
       @board.each do |square, piece|
         if piece.color == color
           captures.concat(self.piece_captures(piece, square))
-          if captures.empty?
-            steps.concat(self.piece_steps(piece, square))
-          end
+          steps.concat(self.piece_steps(piece, square)) if captures.empty?
         end
       end
 
       if captures.empty?
         steps
       else
-        captures_sizes = captures.map { |move| move.captures.size }
-        captures_sizes_max = captures_sizes.max
-        captures.select do |move|
-          move.captures.size == captures_sizes_max
-        end
+        captures_sizes_max = captures.map { |move| move.captures.size }.max
+        captures.select { |move| move.captures.size == captures_sizes_max }
       end
     end
 
     def piece_captures(piece, square)
       captures = Array(Move).new
 
-      explore = Array(Move).new
-      explore << Move.new_explore(square)
+      moves_to_explore = Array(Move).new
+      moves_to_explore << Move.new_explore(square)
 
-      while !explore.empty?
-        move = explore.pop
+      while !moves_to_explore.empty?
         explored = true
+        move_explored = moves_to_explore.pop
+        captures << move_explored if move_explored.squares.size > 1
 
-        {-1, 1}.each do |rank_dir|
-          {-1, 1}.each do |file_dir|
-            capture_square = move.end_square.add(rank_dir, file_dir)
-            if piece.king?
-              while legal_and_empty_square?(capture_square)
-                capture_square = capture_square.add(rank_dir, file_dir)
-              end
-            end
-            if legal_and_opponent_square?(capture_square, piece)
-              if !move.captures.includes?(capture_square)
-                end_square = capture_square.add(rank_dir, file_dir)
-                while legal_and_empty_square?(end_square)
-                  move = move.clone
-                  move.add_capture(end_square, capture_square)
-                  explore << move
-                  explored = false
-                  end_square = end_square.add(rank_dir, file_dir)
-                end
-              end
-            end
-          end
-        end
-
-        if explored && move.squares.size > 1
-          captures << move
+        if piece.king?
+          explore_king_move(piece, square, moves_to_explore, move_explored)
+        else
+          explore_man_move(piece, square, moves_to_explore, move_explored)
         end
       end
 
       captures
+    end
+
+    def explore_man_move(piece, square, moves_to_explore, move_explored)
+      {-1, 1}.each do |rank_dir|
+        {-1, 1}.each do |file_dir|
+          capture_square = move_explored.end_square.add(rank_dir, file_dir)
+          if legal_and_opponent_square?(capture_square, piece)
+            if !move_explored.captures.includes?(capture_square)
+              end_square = capture_square.add(rank_dir, file_dir)
+              if legal_and_empty_square?(end_square)
+                move_to_explore = move_explored.clone
+                move_to_explore.add_capture(end_square, capture_square)
+                moves_to_explore << move_to_explore
+              end
+            end
+          end
+        end
+      end
+    end
+
+    def explore_king_move(piece, square, moves_to_explore, move_explored)
+      {-1, 1}.each do |rank_dir|
+        {-1, 1}.each do |file_dir|
+          capture_square = move_explored.end_square.add(rank_dir, file_dir)
+          while legal_and_empty_square?(capture_square)
+            capture_square = capture_square.add(rank_dir, file_dir)
+          end
+          if legal_and_opponent_square?(capture_square, piece)
+            if !move_explored.captures.includes?(capture_square)
+              end_square = capture_square.add(rank_dir, file_dir)
+              while legal_and_empty_square?(end_square)
+                move_to_explore = move_explored.clone
+                move_to_explore.add_capture(end_square, capture_square)
+                moves_to_explore << move_to_explore
+                end_square = end_square.add(rank_dir, file_dir)
+              end
+            end
+          end
+        end
+      end
     end
 
     def piece_steps(piece, square)
@@ -161,13 +176,8 @@ module Checkers
       left_step = piece.left_step(square)
       right_step = piece.right_step(square)
 
-      if legal_and_empty_square?(left_step)
-        end_squares << left_step
-      end
-
-      if legal_and_empty_square?(right_step)
-        end_squares << right_step
-      end
+      end_squares << left_step if legal_and_empty_square?(left_step)
+      end_squares << right_step if legal_and_empty_square?(right_step)
     end
 
     def king_steps(piece, square, end_squares)

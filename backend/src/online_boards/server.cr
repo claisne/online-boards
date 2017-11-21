@@ -1,22 +1,17 @@
 require "kemal"
-
-Kemal.config.logging = false
-
-get "/" do |env|
-  "Hello"
-end
+require "./message"
+require "./message/*"
 
 ws "/" do |socket|
-  uuid = SecureRandom.urlsafe_base64(8, true)
+  puts "Opening"
 
-  puts "Opened"
-
-  socket.on_message do |message|
-    puts message
+  socket.on_message do |message_json|
+    message = Message.parse(message_json)
+    message.handle(socket)
   end
 
   socket.on_close do
-    puts "Closed"
+    puts "Closing"
   end
 end
 
@@ -28,4 +23,6 @@ error 500 do |env|
   "Internal Server Error."
 end
 
+Kemal.config.logging = false
+Kemal.config.port = 3001
 Kemal.run
