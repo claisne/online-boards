@@ -6,8 +6,12 @@ ws "/" do |socket|
   puts "Opening"
 
   socket.on_message do |message_json|
-    message = Message.parse(message_json)
-    message.handle(socket)
+    begin
+      message = Message.parse(message_json)
+      message.handle(socket)
+    rescue exception
+      puts exception
+    end
   end
 
   socket.on_close do

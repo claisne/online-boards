@@ -1,5 +1,5 @@
 require "json"
-require "./message/*"
+require "./message/checkers/*"
 
 module Message
   def self.parse(message_json)
@@ -15,7 +15,7 @@ module Message
   def self.message_from_type(message_type, message_json)
     case message_type
     when "PLAY_CHECKERS"
-      PlayCheckers.from_json(message_json)
+      Checkers::Play.from_json(message_json)
     else
       raise "Unknown message type"
     end

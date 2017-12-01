@@ -6,9 +6,6 @@ import logger from 'redux-logger';
 
 import 'bootstrap/dist/css/bootstrap-reboot.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
-
-import registerServiceWorker from './registerServiceWorker';
-
 import './index.css';
 
 import reducers from './reducers';
@@ -24,5 +21,3 @@ ReactDOM.render((
     <App />
   </Provider>
 ), document.getElementById('root'));
-
-registerServiceWorker();
