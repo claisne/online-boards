@@ -13,4 +13,12 @@ module Games
     game = Checkers::Game.new(size, mode)
     players.add_game(player_1, player_2, game)
   end
+
+  def self.player_connected(socket)
+  end
+
+  def self.player_disconnected(socket)
+    queue.remove(socket)
+    players.disconnected(socket)
+  end
 end

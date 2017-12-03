@@ -1,3 +1,5 @@
+require "json"
+
 require "./color"
 require "./type"
 
@@ -65,6 +67,10 @@ module Checkers
 
     def promote
       @type = Type::King
+    end
+
+    def to_json(json : JSON::Builder)
+      json.string(to_s)
     end
 
     def to_s(io)

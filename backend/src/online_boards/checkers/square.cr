@@ -11,5 +11,13 @@ module Checkers
     def add(rank, file)
       Square.new(self.rank + rank, self.file + file)
     end
+
+    def to_json(json : JSON::Builder)
+      json.string(to_s)
+    end
+
+    def to_s(io)
+      io << ('a'.ord + file).chr << rank + 1
+    end
   end
 end

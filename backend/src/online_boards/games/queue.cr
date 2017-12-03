@@ -17,6 +17,10 @@ module Games
         @waiting[{size, mode}] = socket
       end
     end
+
+    def remove(socket)
+      @waiting.delete_if { |_, waiting_socket| waiting_socket == socket }
+    end
   end
 
   def self.queue

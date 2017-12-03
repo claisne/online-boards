@@ -4,6 +4,7 @@ require "./message/*"
 
 ws "/" do |socket|
   puts "Opening"
+    Games.player_connected(socket)
 
   socket.on_message do |message_json|
     begin
@@ -16,6 +17,7 @@ ws "/" do |socket|
 
   socket.on_close do
     puts "Closing"
+    Games.player_disconnected(socket)
   end
 end
 
