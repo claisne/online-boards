@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import user from './user';
+import online from './online';
 
 const reducers = combineReducers({
-  user,
+  online,
 });
 
 export default reducers;

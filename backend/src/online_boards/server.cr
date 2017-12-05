@@ -1,14 +1,25 @@
 require "kemal"
-require "./message"
-require "./message/*"
+
+require "./games"
+require "./messages"
+
+SOCKETS = Set(HTTP::WebSocket).new
+
+spawn do
+  loop do
+    msg = Messages::SocketCount.new(SOCKETS.size)
+    SOCKETS.each { |socket| socket.send(msg.to_json) }
+    sleep 1.second
+  end
+end
 
 ws "/" do |socket|
-  puts "Opening"
-    Games.player_connected(socket)
+  SOCKETS.add(socket)
+  Games.player_connected(socket)
 
   socket.on_message do |message_json|
     begin
-      message = Message.parse(message_json)
+      message = Messages.parse(message_json)
       message.handle(socket)
     rescue exception
       puts exception
@@ -16,7 +27,7 @@ ws "/" do |socket|
   end
 
   socket.on_close do
-    puts "Closing"
+    SOCKETS.delete(socket)
     Games.player_disconnected(socket)
   end
 end

@@ -9,8 +9,9 @@ import 'bootstrap/dist/css/bootstrap-grid.css';
 import './index.css';
 
 import reducers from './reducers';
+import * as Online from './reducers/online';
 
-import './socket';
+import { listen } from './socket';
 
 import App from './app';
 
@@ -21,3 +22,5 @@ ReactDOM.render((
     <App />
   </Provider>
 ), document.getElementById('root'));
+
+listen('SOCKET_COUNT', ({ count }) => store.dispatch(Online.set(count)));

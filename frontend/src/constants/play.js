@@ -1,3 +1,3 @@
-export const BULLET = 'Bullet';
-export const BLITZ = 'Blitz';
-export const CLASSIC = 'Classic';
+export const BULLET = 'BULLET';
+export const BLITZ = 'BLITZ';
+export const CLASSIC = 'CLASSIC';

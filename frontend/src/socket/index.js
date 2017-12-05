@@ -8,6 +8,8 @@ ws.onmessage = (evt) => {
   const msg = JSON.parse(evt.data);
   if (listeners[msg.type] != null) {
     listeners[msg.type].forEach(cb => cb(msg));
+  } else {
+    console.log(msg);
   }
 };
 

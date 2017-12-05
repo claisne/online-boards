@@ -6,8 +6,8 @@ require "./piece"
 module Checkers
   class Board
     JSON.mapping({
-      size: Int32,
-      board: Hash(Square, Piece)
+      size:  Int32,
+      board: Hash(Square, Piece),
     })
 
     def initialize(@size = 10, @board = Hash(Square, Piece).new)

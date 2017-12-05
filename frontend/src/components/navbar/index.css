@@ -71,6 +71,21 @@
   border-right: none;
 }
 
+.navbar-online { 
+  flex: 0 0 auto;
+  padding-right: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  font-size: 0.8em;
+}
+
+.navbar-online>img {
+  height: 15px;
+  margin-right: 5px;
+  margin-top: 2px;
+}
+
 .navbar-auth { 
   flex: 0 0 auto;
   padding-right: 10px;

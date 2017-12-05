@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import './index.css';
 
 import logo from './img/logo.svg';
+import people from './img/people.png';
 
 // const ConnectedLinks = ({ username }) => (
 //   <div className="navbar-auth">
@@ -26,24 +27,23 @@ import logo from './img/logo.svg';
 //   </div>
 // );
 
-const Navbar = () => (
+const Navbar = ({ online }) => (
   <nav className="navbar">
     <Link to="/" className="navbar-title">
       <img alt="Online Boards" src={logo} />
       Online Boards
       <span className="navbar-title-version">Alpha</span>
     </Link>
-    <div className="navbar-links">
-      {/* <Link to="/play" className="navbar-link">
-        Play
-      </Link> */}
+    <div className="navbar-links" />
+    <div className="navbar-online">
+      <img alt="Players online" src={people} />
+      {online ? `${online} players online` : null}
     </div>
-    {/* {user == null ? <NotConnectedLinks /> : <ConnectedLinks username={user.name} />} */}
   </nav>
 );
 
-function mapStateToProps({ user }) {
-  return { user };
+function mapStateToProps({ online }) {
+  return { online };
 }
 
 function mapDispatchToProps() {

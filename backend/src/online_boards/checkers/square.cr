@@ -17,7 +17,7 @@ module Checkers
     end
 
     def to_s(io)
-      io << ('a'.ord + file).chr << rank + 1
+      io << file << ':' << rank
     end
   end
 end
