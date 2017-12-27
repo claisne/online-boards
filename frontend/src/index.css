@@ -86,3 +86,8 @@ button.white {
   color: #000;
   border: 1px solid #ddd;
 }
+
+button>img {
+  max-height: 1rem;
+  margin-right: 10px;
+}

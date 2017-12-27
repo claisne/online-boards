@@ -1,5 +1,6 @@
 require "kemal"
 
+require "./logger"
 require "./games"
 require "./messages"
 
@@ -22,7 +23,7 @@ ws "/" do |socket|
       message = Messages.parse(message_json)
       message.handle(socket)
     rescue exception
-      puts exception
+      LOGGER.error(exception)
     end
   end
 

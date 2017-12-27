@@ -35,10 +35,12 @@ const Navbar = ({ online }) => (
       <span className="navbar-title-version">Alpha</span>
     </Link>
     <div className="navbar-links" />
-    <div className="navbar-online">
-      <img alt="Players online" src={people} />
-      {online ? `${online} players online` : null}
-    </div>
+    {online ?
+      <div className="navbar-online">
+        <img alt="Players online" src={people} />
+        {online} online
+      </div>
+      : null}
   </nav>
 );
 

@@ -1,6 +1,7 @@
 require "json"
 
 require "./messages/*"
+require "./games/game"
 
 module Messages
   def self.parse(message_json)
@@ -21,4 +22,27 @@ module Messages
       raise "Unknown message type"
     end
   end
+
+  macro define_server(name, type, properties = {} of String => Class)
+    class {{name}}
+      JSON.mapping({
+        type: String,
+        {% for key, value in properties %}
+        {{key}}: {{value}},
+        {% end %}
+      })
+
+      def initialize(
+        {% for key, value in properties %}
+          @{{key}},
+        {% end %}
+      )
+        @type = {{type}}
+      end
+    end
+  end
+
+  define_server(SocketCount, "SOCKET_COUNT", { count: Int32 })
+  define_server(QueueWaiting, "QUEUE_WAITING")
+  define_server(GameCreated, "GAME_CREATED", { game: Games::Game })
 end

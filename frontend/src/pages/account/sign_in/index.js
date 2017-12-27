@@ -10,7 +10,7 @@ import { LOADING } from '../../../api';
 import auth from '../../../api/auth';
 
 import FormInput from '../../../components/form-input';
-import SubmitButton from '../../../components/submit-button';
+import Button from '../../../components/button';
 
 import { set } from '../../../reducers/user';
 
@@ -119,8 +119,8 @@ class SignIn extends React.Component {
               onChange={this.onChange}
             />
             <div className="form-group">
-              <SubmitButton
-                request={request}
+              <Button
+                loading={request === LOADING}
                 text="Sign in"
                 loadingText="Signing in..."
               />

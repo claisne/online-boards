@@ -13,10 +13,6 @@ module Games
     def add_game(socket_1, socket_2, game)
       @game_by_socket[socket_1] = game
       @game_by_socket[socket_2] = game
-
-      msg = Messages::GameCreated.new(game)
-      socket_1.send(msg.to_json)
-      socket_2.send(msg.to_json)
     end
 
     def connected(socket)

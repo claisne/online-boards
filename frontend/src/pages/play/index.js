@@ -5,8 +5,10 @@ import DefaultLayout from '../../layouts/default';
 
 import './index.css';
 
+import Button from '../../components/button';
 import { DefaultStartingBoard } from '../../components/board';
 
+import { listen } from '../../socket';
 import sendPlay from '../../socket/play';
 
 import {
@@ -53,11 +55,21 @@ class Play extends React.Component {
     this.state = {
       size: 10,
       mode: CLASSIC,
+      waiting: false,
     };
 
     this.onChangeSize = this.onChangeSize.bind(this);
     this.onChangeMode = this.onChangeMode.bind(this);
-    this.onFindClick = this.onFindClick.bind(this);
+    this.onPlay = this.onPlay.bind(this);
+    this.onQueueWaiting = this.onQueueWaiting.bind(this);
+  }
+
+  componentWillMount() {
+    listen('QUEUE_WAITING', this.onQueueWaiting);
+  }
+
+  onQueueWaiting() {
+    this.setState({ waiting: true });
   }
 
   onChangeSize(size) {
@@ -68,7 +80,8 @@ class Play extends React.Component {
     this.setState({ mode });
   }
 
-  onFindClick() {
+  onPlay(evt) {
+    evt.preventDefault();
     sendPlay(this.state);
   }
 
@@ -80,7 +93,10 @@ class Play extends React.Component {
         <div className="play">
           <div className="play-card">
             <DefaultStartingBoard size={size} className="play-board" />
-            <div className="play-options">
+            <form
+              className="play-options"
+              onSubmit={this.onPlay}
+            >
               <SizeOptions
                 size={size}
                 onChangeSize={this.onChangeSize}
@@ -112,12 +128,12 @@ class Play extends React.Component {
                   </ModeButton>
                 </div>
               </div>
-              <button
-                onClick={this.onFindClick}
-              >
-                Find a Match
-              </button>
-            </div>
+              <Button
+                loading={this.state.waiting}
+                text="Play"
+                loadingText="Searching..."
+              />
+            </form>
           </div>
         </div>
       </DefaultLayout>

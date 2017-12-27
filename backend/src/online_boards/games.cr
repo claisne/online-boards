@@ -13,6 +13,9 @@ module Games
   def self.create(size, mode, player_1, player_2)
     game = Game.new(size, mode)
     PLAYERS.add_game(player_1, player_2, game)
+    msg = Messages::GameCreated.new(game)
+    player_1.send(msg.to_json)
+    player_2.send(msg.to_json)
   end
 
   def self.player_connected(socket)
