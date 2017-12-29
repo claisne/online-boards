@@ -1,12 +1,41 @@
 
 import React from 'react';
+import { connect } from 'react-redux';
+import './index.css';
 
 import DefaultLayout from '../../layouts/default';
 
-const Games = () => (
-  <DefaultLayout>
-    <h1>Games</h1>
-  </DefaultLayout>
-);
+import Board from '../../components/board';
 
-export default Games;
+const Games = ({ match, games }) => {
+  const game = games[match.params.id];
+
+  if (game == null) {
+    return (
+      <DefaultLayout />
+    );
+  }
+
+  return (
+    <DefaultLayout>
+      <div className="games">
+        <div className="games-board-container">
+          <Board
+            board={game.board}
+            className="games-board"
+          />
+        </div>
+      </div>
+    </DefaultLayout>
+  );
+};
+
+function mapStateToProps({ games }) {
+  return { games };
+}
+
+function mapDispatchToProps() {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Games);

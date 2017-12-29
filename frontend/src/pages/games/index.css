@@ -1,0 +1,17 @@
+
+.games {
+  height: calc(100vh - 40px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.games-board-container {
+  width: 40vh;
+  height: 40vh;
+}
+
+.games-board {
+  width: 40vh;
+  height: 40vh;
+}

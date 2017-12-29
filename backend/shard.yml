@@ -14,4 +14,8 @@ dependencies:
   kemal:
     github: kemalcr/kemal
 
+development_dependencies:
+  ameba:
+    github: veelenga/ameba
+
 license: MIT

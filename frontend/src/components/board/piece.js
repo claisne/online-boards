@@ -5,16 +5,40 @@ import blackMan from './img/black_man.svg';
 import whiteKing from './img/white_king.svg';
 import blackKing from './img/black_king.svg';
 
-const Piece = ({ color, type }) => {
-  if (type === 'man') {
+const Piece = ({ piece }) => {
+  if (piece === 'M') {
     return (
-      <img alt={`${color} man`} src={color === 'white' ? whiteMan : blackMan} />
+      <img
+        alt="White Man"
+        src={whiteMan}
+      />
     );
   }
 
-  if (type === 'king') {
+  if (piece === 'K') {
     return (
-      <img alt={`${color} king`} src={color === 'white' ? whiteKing : blackKing} />
+      <img
+        alt="White King"
+        src={whiteKing}
+      />
+    );
+  }
+
+  if (piece === 'm') {
+    return (
+      <img
+        alt="Black Man"
+        src={blackMan}
+      />
+    );
+  }
+
+  if (piece === 'k') {
+    return (
+      <img
+        alt="Black King"
+        src={blackKing}
+      />
     );
   }
 

@@ -5,12 +5,10 @@ require "./piece"
 
 module Checkers
   class Board
-    JSON.mapping({
-      size:  Int32,
-      board: Hash(Square, Piece),
-    })
+    @size : Int32
+    @pieces : Hash(Square, Piece)
 
-    def initialize(@size = 10, @board = Hash(Square, Piece).new)
+    def initialize(@size = 10, @pieces = Hash(Square, Piece).new)
     end
 
     def self.new_starting_position(size = 10)
@@ -26,11 +24,11 @@ module Checkers
             if rank < (@size / 2) - 1
               square = Square.new(rank, file)
               piece = Piece.new_black_man
-              @board[square] = piece
+              @pieces[square] = piece
             elsif rank > (@size / 2)
               square = Square.new(rank, file)
               piece = Piece.new_white_man
-              @board[square] = piece
+              @pieces[square] = piece
             end
           end
         end
@@ -38,11 +36,11 @@ module Checkers
     end
 
     def set_piece(piece, square)
-      @board[square] = piece
+      @pieces[square] = piece
     end
 
     def piece_at(square)
-      @board[square]?
+      @pieces[square]?
     end
 
     def legal_square?(square)
@@ -50,7 +48,7 @@ module Checkers
     end
 
     def empty_square?(square)
-      !@board.has_key?(square)
+      !@pieces.has_key?(square)
     end
 
     def legal_and_empty_square?(square)
@@ -71,13 +69,13 @@ module Checkers
     end
 
     def apply_move(move)
-      piece = @board.delete(move.start_square)
+      piece = @pieces.delete(move.start_square)
       if piece
         piece.promote if self.promotion_square?(move.end_square, piece)
-        @board[move.end_square] = piece
+        @pieces[move.end_square] = piece
       end
       move.captures.each do |capture_square|
-        @board.delete(capture_square)
+        @pieces.delete(capture_square)
       end
     end
 
@@ -85,7 +83,7 @@ module Checkers
       captures = Array(Move).new
       steps = Array(Move).new
 
-      @board.each do |square, piece|
+      @pieces.each do |square, piece|
         if piece.color == color
           captures.concat(self.piece_captures(piece, square))
           steps.concat(self.piece_steps(piece, square)) if captures.empty?
@@ -98,6 +96,10 @@ module Checkers
         captures_sizes_max = captures.map { |move| move.captures.size }.max
         captures.select { |move| move.captures.size == captures_sizes_max }
       end
+    end
+
+    def legal_move?(move)
+      moves.includes?(move)
     end
 
     def piece_captures(piece, square)
@@ -200,8 +202,8 @@ module Checkers
         io << rank << "|"
         (0...@size).each do |file|
           square = Square.new(rank, file)
-          if @board[square]?
-            io << @board[square]
+          if @pieces[square]?
+            io << @pieces[square]
           else
             io << "."
           end
@@ -218,6 +220,23 @@ module Checkers
       io << "  "
       (0...@size).each do |file|
         io << file
+      end
+    end
+
+    def to_json(json)
+      json.array do
+        (0...@size).each do |rank|
+          json.array do
+            (0...@size).each do |file|
+              square = Square.new(rank, file)
+              if @pieces[square]?
+                json.string(@pieces[square])
+              else
+                json.null
+              end
+            end
+          end
+        end
       end
     end
   end

@@ -1,3 +1,4 @@
+require "json"
 require "./square"
 
 module Checkers
@@ -35,6 +36,13 @@ module Checkers
 
     def clone
       Move.new(@squares.dup, @captures.dup)
+    end
+
+    def to_json(json : JSON::Builder)
+      json.object do
+        json.field("squares") { @squares.to_json(json) }
+        json.field("captures") { @captures.to_json(json) }
+      end
     end
   end
 end

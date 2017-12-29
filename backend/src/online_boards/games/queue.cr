@@ -1,29 +1,29 @@
 require "../logger"
-require "../messages"
+require "../messages/server"
+
 require "./mode"
 
 module Games
   class Queue
-    def initialize
-      @waiting = Hash(Tuple(Int32, Mode), HTTP::WebSocket).new
-    end
+    @@waiting = Hash(Tuple(Int32, Mode), Player).new
 
-    def add(size, mode, socket)
+    def self.add(player, size, mode)
       LOGGER.debug("Games::Queue/add")
-      waiting_socket = @waiting[{size, mode}]?
-      if waiting_socket && waiting_socket != socket
+      waiting_player = @@waiting[{size, mode}]?
+      if !waiting_player.nil? && waiting_player != player
         LOGGER.debug("Games::Queue/add create")
-        Games.create(size, mode, socket, waiting_socket)
+        @@waiting.delete({size, mode})
+        Games.create(player, waiting_player, size, mode)
       else
         LOGGER.debug("Games::Queue/add waiting")
-        @waiting[{size, mode}] = socket
-        msg = Messages::QueueWaiting.new()
-        socket.send(msg.to_json)
+        @@waiting[{size, mode}] = player
+        player.send(Messages::Server::QueueWaiting.new)
       end
     end
 
-    def remove(socket)
-      @waiting.delete_if { |_, waiting_socket| waiting_socket == socket }
+    def self.remove(player)
+      @@waiting.delete_if { |_, waiting_player| waiting_player == player }
+      LOGGER.debug("Games::Queue/disconnected", @@waiting.size)
     end
   end
 end

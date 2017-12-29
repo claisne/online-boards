@@ -11,6 +11,7 @@ import './index.css';
 import history from './utils/history';
 
 import reducers from './reducers';
+import * as Uid from './reducers/uid';
 import * as Online from './reducers/online';
 import * as Games from './reducers/games';
 
@@ -36,6 +37,7 @@ ReactDOM.render((
   </Provider>
 ), document.getElementById('root'));
 
+listen('UID_CREATED', ({ uid }) => store.dispatch(Uid.set(uid)));
 listen('SOCKET_COUNT', ({ count }) => store.dispatch(Online.set(count)));
 
 listen('GAME_CREATED', ({ game }) => {
